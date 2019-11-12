@@ -1,0 +1,43 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+#        route id
+        - id: produce1
+#          forward target_uri
+          uri: lb://produce1
+          order: 0
+          predicates:
+#            if requestUrl is start with /ldl ,then forward to uri
+            - Path=/ldl/**
+          filters:
+            - StripPrefix=1
+            - AddResponseHeader=X-Response-Default-Foo,Default-Bar
+            - name: Hystrix
+              args:
+                name: fallbackcmd
+                fallbackUri: forward:/test/fallback
+        - id: produce2
+          uri: lb://produce1
+          order: 0
+          predicates:
+            - Path=/ldl/**
+          filters:
+            - StripPrefix=1
+            - AddResponseHeader=X-Response-Default-Foo,Default-Bar
+eureka:
+  instance:
+    hostname: gateway
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 3000

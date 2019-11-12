@@ -1,0 +1,33 @@
+spring:
+    application:
+        name: eureka
+
+server:
+    port: 8761
+
+eureka:
+    instance:
+#        设置当前实例的主机名称
+        hostname: eureka
+        prefer-ip-address: true
+#        服务以Ip显示
+        instance-id: ${spring.cloud.client.ip-address}:${server.port}
+#        定义服务失效的时间，单位：秒
+        lease-expiration-duration-in-seconds: 30000
+#        定义服务续约任务（心跳）的调用间隔，单位：秒
+        lease-renewal-interval-in-seconds: 30000
+    client:
+        fetch-registry: false
+        register-with-eureka: false
+        service-url:
+            defaultZone: http://localhost:8761/eureka
+#       从Eureka服务器端获取注册信息的间隔时间，单位：秒
+        registry-fetch-interval-seconds: 30000
+#        连接 Eureka Server 的超时时间，单位：秒
+        eureka-server-connect-timeout-seconds: 30000
+#        读取 Eureka Server 信息的超时时间，单位：秒
+        eureka-server-read-timeout-seconds: 30000
+#        获取实例时是否过滤，只保留UP状态的实例
+        filter-only-up-instances: true
+#        Eureka 服务端连接空闲关闭时间，单位：秒
+        eureka-connection-idle-timeout-seconds: 30000
