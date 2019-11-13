@@ -9,6 +9,7 @@ public class ResponseData {
 
     private String code;
     private String msg;
+    private Object data;
 
     public String getCode() {
         return code;
@@ -24,5 +25,13 @@ public class ResponseData {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 }
